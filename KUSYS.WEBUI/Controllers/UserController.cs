@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using KUSYS.Business.Services.Base;
 using KUSYS.Business.Services.Classes;
 using KUSYS.Business.Services.Interfaces;
 using KUSYS.Business.UnitOfWorks;
 using KUSYS.Data.Business.Services.UserService;
-using KUSYS.Data.POCO;
-using KUSYS.Data.Web.Base;
-using KUSYS.Helper.WebHelpers;
 using KUSYS.WEBUI.Controllers.Base;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Security.Claims;
 
 namespace KUSYS.WEBUI.Controllers
@@ -17,24 +14,35 @@ namespace KUSYS.WEBUI.Controllers
     public class UserController : BaseController
     {
         private IUserService _userService;
-        public UserController(IConfiguration configuration, IUnitOfWork uow, IMapper mapper):base(configuration,uow,mapper)
+        public UserController(IConfiguration configuration, IUnitOfWork uow, IMapper mapper) : base(configuration, uow, mapper)
         {
-            _userService=base.GetService<UserService>();
-        }
-        public IActionResult Login()
-        {
-            return View();
+            _userService = base.GetService<IUserService>();
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login(LoginRequestModel requestModel)
+        public async Task<IActionResult> Login(LoginRequestModel requestModel)
         {
-            ResponseObject<string> response = new ResponseObject<string>();
+            var loggedUser = _userService.Login(requestModel);
 
-            var token = _userService.Login(requestModel);
-            response.Data = token;
+            ClaimsIdentity identity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Role,loggedUser.Role.ToString()),
+                new Claim("StudentId",loggedUser.StudentId.ToString()),
+                new Claim("NameSurname",loggedUser.NameSurname)
+            }, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Ok(response);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost, Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

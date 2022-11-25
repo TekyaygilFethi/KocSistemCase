@@ -17,7 +17,7 @@ namespace KUSYS.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -93,30 +93,30 @@ namespace KUSYS.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f6ca5ed4-a6ac-4b8c-9304-2b4de4369cf2"),
+                            Id = new Guid("0a64fd1e-0cc9-4995-88ee-f60cf056ffe1"),
                             BirthDate = new DateTime(1996, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Fethi",
                             Lastname = "Tekyaygil",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9967),
-                            UserId = new Guid("76e7ad2a-a350-47f1-a74d-55b308f16055")
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6742),
+                            UserId = new Guid("f9960263-5cef-4ade-ada1-ba4768fbac37")
                         },
                         new
                         {
-                            Id = new Guid("9993ac14-534a-4d37-8798-c9fb009f755f"),
+                            Id = new Guid("6d9214af-cd43-40b8-829f-a9261daa82b5"),
                             BirthDate = new DateTime(1997, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Yasemin",
                             Lastname = "Özen",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9976),
-                            UserId = new Guid("154ef833-3f9d-47f5-9dff-2be71ba7590c")
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6749),
+                            UserId = new Guid("66ab82f0-9892-4740-af46-97ffbd028d0c")
                         },
                         new
                         {
-                            Id = new Guid("a42ef0fb-4aad-47df-85ab-29837004da30"),
+                            Id = new Guid("2c2425ec-158d-439c-937d-907bb804c509"),
                             BirthDate = new DateTime(2008, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Taha",
                             Lastname = "Tekyaygil",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9979),
-                            UserId = new Guid("de0d7f96-b99c-49bd-9750-9dbedf8619da")
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6752),
+                            UserId = new Guid("777b651d-c644-45f7-af95-2c2299d51db3")
                         });
                 });
 
@@ -140,39 +140,39 @@ namespace KUSYS.Database.Migrations
                     b.HasData(
                         new
                         {
-                            StudentId = new Guid("f6ca5ed4-a6ac-4b8c-9304-2b4de4369cf2"),
+                            StudentId = new Guid("0a64fd1e-0cc9-4995-88ee-f60cf056ffe1"),
                             CourseId = "CSI101",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9974)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6747)
                         },
                         new
                         {
-                            StudentId = new Guid("f6ca5ed4-a6ac-4b8c-9304-2b4de4369cf2"),
+                            StudentId = new Guid("0a64fd1e-0cc9-4995-88ee-f60cf056ffe1"),
                             CourseId = "MAT101",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9975)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6748)
                         },
                         new
                         {
-                            StudentId = new Guid("9993ac14-534a-4d37-8798-c9fb009f755f"),
+                            StudentId = new Guid("6d9214af-cd43-40b8-829f-a9261daa82b5"),
                             CourseId = "CSI102",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9978)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6751)
                         },
                         new
                         {
-                            StudentId = new Guid("a42ef0fb-4aad-47df-85ab-29837004da30"),
+                            StudentId = new Guid("2c2425ec-158d-439c-937d-907bb804c509"),
                             CourseId = "CSI101",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9980)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6753)
                         },
                         new
                         {
-                            StudentId = new Guid("a42ef0fb-4aad-47df-85ab-29837004da30"),
+                            StudentId = new Guid("2c2425ec-158d-439c-937d-907bb804c509"),
                             CourseId = "CSI102",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9980)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6758)
                         },
                         new
                         {
-                            StudentId = new Guid("a42ef0fb-4aad-47df-85ab-29837004da30"),
+                            StudentId = new Guid("2c2425ec-158d-439c-937d-907bb804c509"),
                             CourseId = "MAT101",
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9981)
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6759)
                         });
                 });
 
@@ -194,36 +194,33 @@ namespace KUSYS.Database.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("76e7ad2a-a350-47f1-a74d-55b308f16055"),
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9946),
+                            Id = new Guid("f9960263-5cef-4ade-ada1-ba4768fbac37"),
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6718),
                             Password = "fe230b6xtLrMo+Ab+HWdNI6hzsE=",
                             Role = 1,
                             Username = "fethitekyaygil"
                         },
                         new
                         {
-                            Id = new Guid("154ef833-3f9d-47f5-9dff-2be71ba7590c"),
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9957),
+                            Id = new Guid("66ab82f0-9892-4740-af46-97ffbd028d0c"),
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6727),
                             Password = "0IFYCPfTeVTHCiS7fJmv+QgQFlk=",
                             Role = 0,
                             Username = "yaseminozen"
                         },
                         new
                         {
-                            Id = new Guid("de0d7f96-b99c-49bd-9750-9dbedf8619da"),
-                            ModifiedDate = new DateTime(2022, 11, 16, 15, 57, 24, 658, DateTimeKind.Local).AddTicks(9965),
+                            Id = new Guid("777b651d-c644-45f7-af95-2c2299d51db3"),
+                            ModifiedDate = new DateTime(2022, 11, 24, 17, 36, 24, 773, DateTimeKind.Local).AddTicks(6741),
                             Password = "VOL7WalKDWYMXYkBgtCPx1Etx44=",
                             Role = 0,
                             Username = "tahatekyaygil"

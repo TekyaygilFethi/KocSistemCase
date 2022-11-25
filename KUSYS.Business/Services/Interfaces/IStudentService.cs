@@ -1,20 +1,16 @@
-﻿using KUSYS.Business.Services.Base;
-using KUSYS.Data.Business.Services.StudentService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KUSYS.Data.Business.Services.StudentService;
+using KUSYS.Data.Web.Base;
 
 namespace KUSYS.Business.Services.Interfaces
 {
     public interface IStudentService
     {
-        List<GetAllStudentsResponseModel> GetAllStudents(int page = 0, int count = 10);
-        void UpdateStudent(UpdateStudentModel updateModel);
+        GetAllStudentsResponseModel GetAllStudents(bool isAdmin, Guid? studentId = null, int page = 1, int count = 10);
+        StudentEditDto GetStudentForEdit(Guid studentId);
+        ResponseObject<string> CreateStudentAjax(CreateStudentModel createStudentModel);
 
-        void DeleteStudent(Guid id);
+        ResponseObject<StudentEditDto> UpdateStudentAjax(UpdateStudentModel updateModel);
 
-        object GetStudentCourses(Guid studentId);
+        ResponseObject<string> DeleteStudentAjax(Guid id);
     }
 }

@@ -1,9 +1,5 @@
-﻿using KUSYS.Business.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KUSYS.Business.Caching.Base;
+using KUSYS.Business.Repositories;
 
 namespace KUSYS.Business.UnitOfWorks
 {
@@ -11,5 +7,7 @@ namespace KUSYS.Business.UnitOfWorks
     {
         void Save();
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
+
+        ICacheService GetCacheService();
     }
 }

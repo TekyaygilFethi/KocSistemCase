@@ -2,10 +2,6 @@
 using KUSYS.Helper.WebHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
 
 namespace KUSYS.Database.ModelBuilders
 {
@@ -16,11 +12,6 @@ namespace KUSYS.Database.ModelBuilders
             builder.Entity<User>()
                 .Property(p => p.Id)
                 .ValueGeneratedOnAdd();
-
-            builder.Entity<User>()
-                .HasIndex(p => p.Username)
-                .IsUnique();
-
 
             builder.Entity<Student>()
                 .Property(p => p.Id)
@@ -38,12 +29,6 @@ namespace KUSYS.Database.ModelBuilders
                  .WithOne(o => o.Student)
                  .HasPrincipalKey(o => o.Id);
 
-            //builder.Entity<Student>()
-            //    .HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
-
-            //builder.Entity<Student>()
-            //.Property(b => b.IsDeleted)
-            //.HasDefaultValue(0);
 
         }
 
@@ -56,21 +41,7 @@ namespace KUSYS.Database.ModelBuilders
                  .HasMany(s => s.Students)
                  .WithOne(o => o.Course)
                  .HasPrincipalKey(o => o.CourseId);
-
-            //builder.Entity<StudentCourses>()
-            //    .HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
-
-            //builder.Entity<StudentCourses>()
-            //    .Property(b => b.IsDeleted)
-            //    .HasDefaultValue(0);
         }
-
-        public static void ConfigureCourseBuilder(this ModelBuilder builder)
-        {
-            //builder.Entity<Course>()
-            //    .HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
-        }
-
 
         public static void Seed(this ModelBuilder builder)
         {
@@ -79,6 +50,11 @@ namespace KUSYS.Database.ModelBuilders
                .AddJsonFile(@"appsettings.json", false, false)
                .AddEnvironmentVariables()
                .Build();
+
+            #region 
+
+
+            #endregion
 
 
             #region Courses Insertion

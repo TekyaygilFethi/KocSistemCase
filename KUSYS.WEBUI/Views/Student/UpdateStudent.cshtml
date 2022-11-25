@@ -1,0 +1,59 @@
+﻿@model KUSYS.Data.Business.Services.StudentService.StudentEditDto
+
+@section Styles{
+    <link href="~/multiselect/css/chosen.css" rel="stylesheet" />
+    <link href="~/multiselect/css/style.css" rel="stylesheet" />
+}
+
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <h2>Öğrenci Düzenleme Formu</h2>
+                <p class="lead">@Model.Name @Model.Surname</p>
+            </div>
+
+            <div class="row g-5" id="fields">
+
+                <div class="col-sm-12">
+                    <div class="row g-3">
+                        <input type="hidden" id="id" value="@Model.StudentId">
+
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">İsim</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="" value="@Model.Name" required>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Soyisim</label>
+                            <input type="text" class="form-control" id="lastname" placeholder="" value="@Model.Surname" required>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="birthdate" class="form-label">
+                                Doğum Tarihi
+                            </label>
+                            <input type="date" class="form-control" id="birthdate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" required>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="courses" class="form-label">
+                                Kurslar
+                            </label>
+                            <select id="courses" data-placeholder="Kurs Seçiniz" class="chosen-select" multiple tabindex="4">
+                            </select>
+                        </div>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit" id="btnEditStudent">Düzenle</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    @section Scripts{
+    <script src="~/multiselect/js/chosen.jquery.min.js"></script>
+    <script src="~/multiselect/js/main.js"></script>
+    @*seçilen kurs idleri comboboxta seçili gelmeli bu nedenle external javascripte veriyi geçiriyoruz*@
+    <script src="~/js/updateStudent.js" id="updateStudent.js" data-model='@Html.Raw(Json.Serialize(Model.CourseIds))'></script>
+
+
+}

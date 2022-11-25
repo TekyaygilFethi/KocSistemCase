@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using KUSYS.Business.UnitOfWorks;
+using KUSYS.Data.Web.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Reflection;
 
 namespace KUSYS.WEBUI.Controllers.Base
 {
@@ -17,9 +20,16 @@ namespace KUSYS.WEBUI.Controllers.Base
             _mapper = mapper;
         }
 
+
+        // Servis Interface'inden nesnesi türetiliyor
         protected TService GetService<TService>() where TService : class
         {
-            return (TService)Activator.CreateInstance(typeof(TService), new object[] { _uow, _configuration, _mapper });
+            string className = typeof(TService).Name.Substring(1);
+            var namespacePath = GLOBALS.NAMESPACE_PATH+".Business";
+            Assembly assembly = Assembly.Load(namespacePath);
+            var t = assembly.GetType(namespacePath + ".Services.Classes." + $"{className}");
+
+            return t == default ? default : (TService)Activator.CreateInstance(t, new object[] { _uow, _configuration, _mapper });
         }
     }
 }

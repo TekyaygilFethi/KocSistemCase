@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using KUSYS.Data.Business.Services.StudentService;
 using KUSYS.Data.POCO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KUSYS.Business.ObjectMappers
 {
@@ -21,7 +16,7 @@ namespace KUSYS.Business.ObjectMappers
             CreateMap<UpdateStudentModel, Student>()
                 .ForMember(member => member.ModifiedDate, opt => opt.Ignore())
                 .ForMember(member => member.Courses, opt => opt.Ignore())
-                .ForMember(member => member.User, opt=>opt.Ignore())
+                .ForMember(member => member.User, opt => opt.Ignore())
                 .ForMember(member => member.UserId, opt => opt.Ignore())
                 .ForMember(member => member.Id, opt => opt.Ignore())
                 .ReverseMap();

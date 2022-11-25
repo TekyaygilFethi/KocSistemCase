@@ -1,11 +1,4 @@
-﻿using KUSYS.Data.POCO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KUSYS.Data.Business.Services.StudentService
+﻿namespace KUSYS.Data.Business.Services.StudentService
 {
     public class StudentCourseUpdateModel
     {

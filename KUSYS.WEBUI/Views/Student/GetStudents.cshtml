@@ -1,0 +1,181 @@
+﻿@using KUSYS.Data.Business.Services.StudentService
+@using KUSYS.Data.POCO
+@model List<StudentDto>
+@{
+    bool isAdmin = bool.Parse(TempData["IsAdmin"].ToString());
+    int crudButtonSize = isAdmin ? 4 : 6;
+    int addButtonSize = isAdmin ? 11 : 12;
+    int itemCount = int.Parse(TempData["ItemCount"].ToString());
+    int currentPage = int.Parse(TempData["CurrentPage"].ToString());
+    int totalPageCount = int.Parse(TempData["TotalPageCount"].ToString());
+    int numPageElements = int.Parse(TempData["NumPageElements"].ToString());
+    int lowerLimit = int.Parse(TempData["LowerLimit"].ToString());
+}
+
+
+
+
+<div class="row">
+    <div class="col-sm-@addButtonSize">
+        <div class="input-group mb-3">
+            <input class="form-control" id="studentTableFilterInput" type="text" placeholder="Filtrele">
+        </div>
+    </div>
+    @if (isAdmin)
+    {
+        <div class="col-sm-1">
+            <div class="input-group mb-3">
+                <a class="btn btn-secondary w-100" type="button" data-toggle="tooltip" data-placement="top" title="Yeni Öğrenci Ekle" href="@Url.Action("CreateStudent","Student")"><i class="fa-solid fa-plus"></i></a>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Birth Date</th>
+                        <th scope="col">Course Names</th>
+                        <th scope="col">Course Ids</th>
+                        <th scope="col" colspan="3"></th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable">
+                    @for (int idx = 1; idx <= Model.Count; idx++)
+                    {
+                        <tr id="@Model[idx-1].StudentId">
+                            <th scope="row">@idx</th>
+                            <td>@Model[idx-1].Fullname</td>
+                            <td>@Model[idx-1].BirthDate</td>
+                            <td>@(String.IsNullOrEmpty(Model[idx - 1].CourseNames) ? "-" : Model[idx - 1].CourseNames)</td>
+                            <td>@(String.IsNullOrEmpty(Model[idx - 1].CourseIds) ? "-" : Model[idx - 1].CourseIds)</td>
+                            <td colspan="3">
+                                <div class="row">
+                                    @if (User.IsInRole("Admin") || User.Claims.Single(s => s.Type == "StudentId").Value == Model[idx - 1].StudentId.ToString())
+                                    {
+                                        <div class="col-sm-@crudButtonSize">
+                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="Show Details" data-bs-toggle="modal" data-bs-target="#studentViewModal" data-bs-idx="@idx"><i class="fa-solid fa-table"></i></button>
+                                        </div>
+                                        <div class="col-sm-@crudButtonSize">
+                                            <a class="btn btn-success" type="button" data-toggle="tooltip" data-placement="top" title="Edit" href="@Url.Action("UpdateStudent","Student",new {studentId = Model[idx-1].StudentId})"><i class="fa-solid fa-user-pen"></i></a>
+                                        </div>
+                                        //Admin ise kullanıcı silebilir
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <div class="col-sm-4">
+                                                <button class="btn btn-danger" type="button" onclick="deleteStudent(this);" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-studentId="@Model[idx-1].StudentId" data-bs-studentName="@Model[idx-1].Fullname" data-bs-idx="@idx"><i class="fa-solid fa-trash-can"></i></button>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            YETKİNİZ YOK
+                                        </div>
+                                    }
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <nav aria-label="Students">
+            <ul class="pagination justify-content-center">
+                @if (currentPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" href="/student/get-students?count=@itemCount&page=@(currentPage-1)">Previous</a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                }
+
+
+                @foreach (var pageNumber in Enumerable.Range(lowerLimit, numPageElements))
+                {
+                    if (pageNumber == currentPage)
+                    {
+                        <li class="page-item active"><a class="page-link" href="#">@pageNumber</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="/student/get-students?count=@itemCount&page=@pageNumber">@pageNumber</a></li>
+
+                    }
+                }
+
+                @if (currentPage == totalPageCount)
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="/student/get-students?count=@itemCount&page=@(currentPage+1)">Next</a></li>
+
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="modal fade" id="studentViewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="studentViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentViewModalLabel">Öğrenci Bilgisi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    @*<span aria-hidden="true">&times;</span>*@
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="usernameField">Kullanıcı Adı</span>
+                    <input type="text" id="username" class="form-control" aria-describedby="usernameField" disabled readonly>
+
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="nameField">İsim Soyisim</span>
+                    <input type="text" id="name" class="form-control" aria-describedby="nameField" disabled readonly>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="bdayField">Doğum Günü</span>
+                    <input type="text" id="birthday" class="form-control" aria-describedby="bdayField" disabled readonly>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="takenCourseNameField">Alınan Kursların İsmi</span>
+                    <textarea id="takenCourseNames" class="form-control" aria-label="takenCourseNameFielda" disabled readonly></textarea>
+
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="takenCourseIdField">Alınan Kursların Kodları</span>
+                    <textarea id="takenCourseIds" class="form-control" aria-label="takenCourseIdField" disabled readonly></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/getStudents.js" id="getStudents.js" data-model='@Html.Raw(Json.Serialize(Model))'></script>
+}

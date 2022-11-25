@@ -1,12 +1,6 @@
 ﻿using KUSYS.Database.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace KUSYS.Business.Repositories
 {
@@ -112,6 +106,11 @@ namespace KUSYS.Business.Repositories
         public void Delete(T entity)
         {
             _ctx.Set<T>().Remove(entity);
+        }
+
+        public int GetCount()
+        {
+            return _ctx.Set<T>().Count();
         }
     }
 }

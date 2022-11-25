@@ -1,10 +1,5 @@
 ﻿using KUSYS.Data.POCO;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KUSYS.Data.Business.Services.StudentService
 {
@@ -12,7 +7,7 @@ namespace KUSYS.Data.Business.Services.StudentService
     {
         [Required]
         [MaxLength(50, ErrorMessage = "Firstname can't be longer than 100 characters!")]
-        public string FirstName { get; set; }
+        public string Firstname { get; set; }
 
         [Required]
         [MaxLength(100, ErrorMessage = "Firstname can't be longer than 100 characters!")]
@@ -22,6 +17,7 @@ namespace KUSYS.Data.Business.Services.StudentService
         [DataType(DataType.DateTime)]
         public DateTime BirthDate { get; set; }
 
+        [Display(Name = "Kullanıcı Adı")]
         public string Username { get; set; }
 
         [DataType(DataType.Password)]

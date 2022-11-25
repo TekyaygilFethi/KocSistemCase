@@ -1,9 +1,7 @@
-﻿using System.Net;
-using System.Text.Json;
-using System.Text;
-using KUSYS.Data.Exceptions;
-using KUSYS.Data.Web.Base;
+﻿using KUSYS.Data.Exceptions;
 using KUSYS.WEBUI.Controllers.Base;
+using System.Net;
+using System.Text;
 
 namespace KUSYS.WebUI.Middlewares
 {
@@ -48,7 +46,7 @@ namespace KUSYS.WebUI.Middlewares
                 }
 
 
-                _logger.LogError(error, $"Parametreler: Host: {context.Request.Host} - Controller: {context.Request.RouteValues["controller"]} - Action: {context.Request.RouteValues["action"]} - Path: {context.Request.Path} - Method: {context.Request.Method} - requestBody: {requestBody}");
+                _logger.LogError(error, $"Parametreler: Host: {context.Request.Host} - Controller: {context.Request.RouteValues["controller"]} - Action: {context.Request.RouteValues["action"]} - Path: {context.Request.Path} - Method: {context.Request.Method} - requestBody: {requestBody} - Custom Message: {error.Message}");
 
                 switch (error)
                 {
@@ -61,13 +59,15 @@ namespace KUSYS.WebUI.Middlewares
                 }
 
 
-                var result = JsonSerializer.Serialize(new ResponseObject<object>
-                {
-                    Message = error.Message,
-                    StatusCode = response.StatusCode,
-                    IsSuccess = false
-                });
-                await response.WriteAsync(result);
+                //var result = JsonSerializer.Serialize(new ResponseObject<object>
+                //{
+                //    Message = error.Message,
+                //    StatusCode = response.StatusCode,
+                //    IsSuccess = false
+                //});
+
+                context.Response.Redirect("/Home/Error");
+                //await response.WriteAsync(result);
             }
         }
     }

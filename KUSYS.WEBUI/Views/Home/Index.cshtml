@@ -1,8 +1,65 @@
-﻿@{
+﻿@using KUSYS.Data.POCO
+@{
     ViewData["Title"] = "Home Page";
+
+    bool isAdmin = User.IsInRole(UserRoleEnum.Admin.ToString());
+    bool isUser = User.IsInRole(UserRoleEnum.User.ToString());
+
+    string studentId = User.Claims.SingleOrDefault(s => s.Type == "StudentId")?.Value;
+
+    int cardSize = isAdmin ? 4 : 6;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">KOÇ SİSTEM'E HOŞ GELDİNİZ!</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>Sistemde neler yapabilirsin?</p>
+
+        @if (isUser || isAdmin)
+        {
+            <div class="row">
+                <div class="col-sm-@cardSize d-flex justify-content-center">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Öğrencileri Görüntüle</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Öğrenci İşleri</h6>
+                            <p class="card-text">Tüm öğrencilerin bilgilerini görüntüleyin. Admin yetkiniz yoksa sadece kendi derslerinizi görebiliyor olacaksınız, Admin yetkiniz varsa tüm öğrencileri düzenleyip silebileceksiniz!</p>
+                            <a href="/student/get-students" class="card-link">Öğrencileri Görüntülemek İçin Tıklayın</a>
+                        </div>
+                    </div>
+                </div>
+                @if (isAdmin){
+                    <div class="col-sm-@cardSize d-flex justify-content-center">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Yeni Öğrenci Ekle</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Öğrenci İşleri</h6>
+                                <p class="card-text">Yeni bir öğrenci ekleyin!</p>
+                                <a href="/student/create-student" class="card-link">Yeni Bir Öğrenci Eklemek İçin Tıklayın</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                    <div class="col-sm-@cardSize d-flex justify-content-center">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Bilgilerinizi Düzenleyin</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Öğrenci İşleri</h6>
+                                <p class="card-text">Sistemdeki bilgilerinizi düzenleyebilir ve yeni bir ders alabilirsiniz.</p>
+                                <a href="@Url.Action("UpdateStudent","Student",new {StudentId = studentId})" class="card-link">Bilgilerinizi Düzenlemek İçin Tıklayın</a>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        }
+
+    }
+    else
+    {
+        <p>Sistemde neler yapabileceğini görmek için lütfen önce giriş yapmayı deneyin!</p>
+
+    }
 </div>

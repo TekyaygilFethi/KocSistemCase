@@ -1,8 +1,12 @@
+using KUSYS.Business.Caching.Base;
+using KUSYS.Business.Caching.Redis.Server;
+using KUSYS.Business.Caching.Redis.Service;
 using KUSYS.Business.ObjectMappers;
 using KUSYS.Business.UnitOfWorks;
 using KUSYS.Database.DbContexts;
+using KUSYS.WebUI.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
@@ -10,8 +14,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 string Env = "Dev";
 string Database = "MSSQL";
@@ -35,7 +38,16 @@ builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(CustomMappingProfiles
 #region UnitOfWork Injection
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 #endregion
-//Console.WriteLine(configuration.GetSection($"ConnectionStrings:{Database}:{Env}").Value);
+
+#region Redis Implementation
+builder.Services.AddStackExchangeRedisCache(action =>
+{
+    action.Configuration = configuration.GetSection("RedisConfiguration:Uri").Value;
+});
+builder.Services.AddTransient<ICacheService, RedisCacheService>();
+
+builder.Services.AddSingleton<RedisServer>();
+#endregion
 
 #region DbContext Injection
 builder.Services.AddDbContext<KUSYSDbContext>(options =>
@@ -45,7 +57,20 @@ builder.Services.AddDbContext<KUSYSDbContext>(options =>
 });
 #endregion
 
+#region Identity Injection
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+#endregion
+
+#region Logging Configuration
+ConfigureLogging();
+builder.Host.UseSerilog();
+#endregion
 
 var app = builder.Build();
 
@@ -60,10 +85,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+app.UseMiddleware<GlobalErrorHandlerMiddleware>();
+
 app.UseRouting();
-
+app.UseCookiePolicy();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

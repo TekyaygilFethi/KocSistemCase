@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using KUSYS.Database.ModelBuilders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KUSYS.Database.ModelBuilders;
 
 namespace KUSYS.Database.DbContexts
 {
@@ -24,7 +18,6 @@ namespace KUSYS.Database.DbContexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            ConfigureCourseEntities(builder);
             ConfigureStudentEntities(builder);
             ConfigureStudentCoursesEntities(builder);
 

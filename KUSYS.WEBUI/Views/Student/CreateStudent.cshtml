@@ -1,0 +1,75 @@
+﻿@model KUSYS.Data.Business.Services.StudentService.CreateStudentModel
+
+@section Styles{
+    <link href="~/multiselect/css/chosen.css" rel="stylesheet">
+    <link href="~/multiselect/css/style.css" rel="stylesheet">
+
+}
+
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                @*<img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">*@
+                <h2>Öğrenci Düzenleme Formu</h2>
+                <p class="lead">YENİ ÖĞRENCİ EKLE</p>
+            </div>
+
+            <div class="row g-5">
+                <div class="col-sm-12">
+                    <div class="row g-3" id="fields">
+
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" id="usernameLabel">Kullanıcı Adı</label>
+                                <input type="text" id="username" name="Username" class="form-control" placeholder="Kullanıcı Adı" aria-describedby="usernameLabel" autocomplete="off" required>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" id="firstnameLabel">İsim</label>
+                                <input type="text" id="firstname" name="Firstname" class="form-control" placeholder="İsim" aria-describedby="firstnameLabel" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" id="lastnameLabel">Soyisim</label>
+                                <input type="text" id="lastname" name="Lastname" class="form-control" placeholder="Soyisim" aria-describedby="lastnameLabel" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" id="birthdateLabel">Doğum Tarihi</label>
+                                <input type="date" name="BirthDate" class="form-control" aria-describedby="birthdateLabel" id="birthdate" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" id="passwordLabel">Şifre</label>
+                                <input type="password" class="form-control" name="Password" placeholder="Şifre" id="password" aria-describedby="passwordLabel" required>
+                                <button type="button" class="btn btn-primary" id="pwdButton" onclick="togglePassword()"><i class="fa-solid fa-eye" id="pwdIcon"></i></button>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="role" id="roleLabel">Rol</label>
+                                <select class="form-select" name="Role" id="role" aria-describedby="roleLabel">
+                                    <option value="0" selected>User</option>
+                                    <option value="1">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <button class="w-100 btn btn-primary btn-lg" type="submit" id="btnCreateStudent">EKLE</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    @section Scripts{
+    <script src="~/js/createstudent.js"></script>
+}
