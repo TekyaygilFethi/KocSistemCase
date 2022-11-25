@@ -47,7 +47,7 @@ public class ResponseObject<T>
 Projeyi klonlayın
 
 ```bash
-  $ git clone https://github.com/TekyaygilFethi/KUSYS.git
+  $ git clone https://github.com/TekyaygilFethi/KocSistemCase.git
 ```
 
 Projenin ana dizini olan ```./KUSYS``` klasörüne gidin. 
